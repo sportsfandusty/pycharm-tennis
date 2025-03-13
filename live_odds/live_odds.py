@@ -52,7 +52,7 @@ def normalize_iwp(p1_iwp, p2_iwp):
     p2_iwp_normalized = (p2_iwp / total)
     return round(p1_iwp_normalized, 3), round(p2_iwp_normalized, 3)
 
-# Function to fetch and process match data
+# Function to fetch and process match elo
 def fetch_and_process_data():
     # List of league IDs to cycle through
     league_ids = ["112632", "90349"]
@@ -79,7 +79,7 @@ def fetch_and_process_data():
         # Add more tournaments and surfaces here
     }
 
-    all_matches = []  # List to store match data
+    all_matches = []  # List to store match elo
 
     for league_id in league_ids:
         url = f"https://sportsbook-nash.draftkings.com/api/sportscontent/dkusoh/v1/leagues/{league_id}"
@@ -201,7 +201,7 @@ def save_results(df):
 
 # Run the script every 10 minutes
 while True:
-    print("\nFetching latest match data...")
+    print("\nFetching latest match elo...")
     fetch_and_process_data()
     print("\nWaiting for the next run in 10 minutes...")
     time.sleep(600)  # 600 seconds = 10 minutes
