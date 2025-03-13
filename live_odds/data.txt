@@ -1,2 +1,0 @@
-sample output data:
-m_id,st,p1,p2,p1_ml,p2_ml,p1_iwp,p2_iwp,tmstmp
