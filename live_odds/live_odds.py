@@ -187,7 +187,7 @@ def save_results(df):
     if not os.path.exists('previous'):
         os.makedirs('previous')
 
-    # Archive the existing 'upcoming_matches.csv' if it exists
+    # Archive the existing 'upcoming_matches.csv' if it exists in the current directory
     if os.path.exists('upcoming_matches.csv'):
         # Generate a timestamp for the filename
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -195,13 +195,31 @@ def save_results(df):
         shutil.move('upcoming_matches.csv', archive_filename)
         print(f"Archived previous results to: {archive_filename}")
 
-    # Save the new results as 'upcoming_matches.csv'
+    # Save the new results as 'upcoming_matches.csv' in the current directory
     df.to_csv('upcoming_matches.csv', index=False)
-    print("Saved new results to: upcoming_matches.csv")
+    print("Saved new results to: upcoming_matches.csv (current directory)")
+
+    # Save the new results as 'upcoming_matches.csv' in the 'elo' directory
+    elo_directory = '../elo'
+    if not os.path.exists(elo_directory):
+        os.makedirs(elo_directory)
+
+    # Archive the existing 'upcoming_matches.csv' in the 'elo' directory if it exists
+    elo_file_path = os.path.join(elo_directory, 'upcoming_matches.csv')
+    if os.path.exists(elo_file_path):
+        # Generate a timestamp for the filename
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        archive_filename = f"previous/upcoming_matches_{timestamp}.csv"
+        shutil.move(elo_file_path, archive_filename)
+        print(f"Archived previous results in 'elo' directory to: {archive_filename}")
+
+    # Save the new results in the 'elo' directory
+    df.to_csv(elo_file_path, index=False)
+    print(f"Saved new results to: {elo_file_path}")
 
 # Run the script every 10 minutes
 while True:
-    print("\nFetching latest match elo...")
+    print("\nInitializing live odds update...")
     fetch_and_process_data()
-    print("\nWaiting for the next run in 10 minutes...")
+    print("\nOdds successfully updated.  Sleeping for 10 minutes...")
     time.sleep(600)  # 600 seconds = 10 minutes
